@@ -6,8 +6,6 @@
 #define LAB1_TESTS_H
 
 
-#endif //LAB1_TESTS_H
-
 #include "InfiniteInt.h"
 #include <sstream>
 #include <algorithm>
@@ -157,8 +155,11 @@ bool makeTests() {
     bool f2 = makeTestsMinus();
     bool f3 = makeTestsMultiplication();
     bool f4 = makeTestsDivision();
+    bool f5 = makeTestsDivisionRandom();
 
-    return f1 && f2 && f3 && f4;
+    return f1 && f2 && f3 && f4 && f5;
 }
 
 
+
+#endif //LAB1_TESTS_H

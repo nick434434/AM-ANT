@@ -7,7 +7,6 @@
 #include <iostream>
 #include <algorithm>
 #include <sstream>
-#include <cmath>
 
 using std::cout;
 using std::endl;
@@ -19,7 +18,7 @@ InfiniteInt::InfiniteInt() {
     _sign = PLUS;
 }
 
-InfiniteInt::InfiniteInt(long long num) {
+InfiniteInt::InfiniteInt(int64_t num) {
     num >= 0 ? _sign = PLUS : _sign = MINUS;
     _bits.resize(1, (unsigned int)num);
     std::reverse(this->_bits.begin(), this->_bits.end());
@@ -37,7 +36,7 @@ InfiniteInt::InfiniteInt(vector<unsigned int> bits, unsigned int sign) {
     Normalize();
 }
 
-InfiniteInt::InfiniteInt(vector<long long> bits, unsigned int sign) {
+InfiniteInt::InfiniteInt(vector<int64_t> bits, unsigned int sign) {
     _bits.resize(bits.size(), 0);
 
     for (size_t i = 0; i < bits.size(); i++)
@@ -58,7 +57,7 @@ InfiniteInt::InfiniteInt(string num, unsigned int base) {
 
     _bits.resize(1, 0);
 
-    long long carry, tmp, digit;
+    int64_t carry, tmp, digit;
 
     for (long i = 0; i < num.size(); i++) {
         carry = num[i] - '0';
@@ -66,8 +65,8 @@ InfiniteInt::InfiniteInt(string num, unsigned int base) {
         for (signed long j = _bits.size() - 1; j >= 0; j--) {
             digit = _bits[j];
             tmp = digit * 10 + carry;
-            _bits[j] = tmp % ((long long)MaxInt);
-            carry = tmp / ((long long)MaxInt);
+            _bits[j] = tmp % ((int64_t)MaxInt);
+            carry = tmp / ((int64_t)MaxInt);
         }
 
         if (carry)
@@ -130,15 +129,15 @@ InfiniteInt InfiniteInt::operator+(InfiniteInt num) {
 
         unsigned long min_length = k > l ? l : k;
         int carry = 0;
-        long long tmp = 0;
+        int64_t tmp = 0;
 
         for (int i = 0; i < min_length; i++) {
-            tmp = (long long)_bits[i] + (long long)num._bits[i] + (long long)carry;
+            tmp = (int64_t)_bits[i] + (int64_t)num._bits[i] + (int64_t)carry;
             carry = tmp / MaxInt;
             res[i] = tmp % MaxInt;
         }
         for (unsigned long i = min_length; i < res.capacity() - 1; i++) {
-            tmp = (long long)(k > l ? _bits[i] : num._bits[i]) + (long long)carry;
+            tmp = (int64_t)(k > l ? _bits[i] : num._bits[i]) + (int64_t)carry;
             carry = tmp / MaxInt;
             res[i] = tmp % MaxInt;
         }
@@ -194,7 +193,7 @@ InfiniteInt InfiniteInt::operator-(InfiniteInt num) {
 
         unsigned long min_length = k > l ? l : k;
         int carry = 0;
-        long long tmp = 0;
+        int64_t tmp = 0;
 
         for (int i = 0; i < min_length; i++) {
             tmp = (long)minuend[i] - (long)substrahend[i] + (long)carry;
@@ -202,7 +201,7 @@ InfiniteInt InfiniteInt::operator-(InfiniteInt num) {
                 carry = (tmp / MaxInt);
             else {
                 carry = -1;
-                tmp += ((long long)1 << 32);
+                tmp += ((int64_t)1 << 32);
             }
             res[i] = tmp % MaxInt;
         }
@@ -212,7 +211,7 @@ InfiniteInt InfiniteInt::operator-(InfiniteInt num) {
                 carry = tmp / MaxInt;
             else {
                 carry = -1;
-                tmp += ((long long)1 << 32);
+                tmp += ((int64_t)1 << 32);
             }
             res[i] = tmp % MaxInt;
         }
@@ -249,7 +248,7 @@ InfiniteInt InfiniteInt::operator*(InfiniteInt num) {
     res.resize(k + l, 0);
 
     unsigned long carry = 0;
-    __int128 tmp = 0;
+    uint64_t tmp = 0;
 
     for (int i = 0; i < k + l; i++)
         res[i] = 0;
@@ -257,8 +256,8 @@ InfiniteInt InfiniteInt::operator*(InfiniteInt num) {
     for (int i = 0; i < k; i++) {
         carry = 0;
         for (int j = 0; j < l; j++) {
-            tmp = (__int128)_bits[i] * (__int128)num._bits[j] + (__int128)res[i + j]
-                  + (__int128)carry;
+            tmp = (uint64_t)_bits[i] * (uint64_t)num._bits[j] + (uint64_t)res[i + j]
+                  + (uint64_t)carry;
             carry = tmp / MaxInt;
             res[i + j] = tmp % MaxInt;
         }
@@ -278,44 +277,6 @@ InfiniteInt InfiniteInt::operator*=(InfiniteInt num) {
 
 InfiniteInt InfiniteInt::operator/(InfiniteInt num) {
 
-    /*InfiniteInt res;
-    InfiniteInt curValue;
-    res._bits.resize(_bits.capacity() + num._bits.capacity(), 0);
-    curValue._bits.resize(_bits.capacity() + num._bits.capacity(), 0);
-
-    unsigned long k = _bits.capacity();
-    unsigned long l = num._bits.capacity();
-
-    for (long i = k - 1; i >= 0; i--)
-    {
-        curValue.LevelUp(); // * 2^N
-        curValue._bits[0] = _bits[i];
-
-        // подбираем максимальное число x, такое что num * x <= curValue
-        unsigned long x = 0;
-        unsigned long s = 0, r = (unsigned long)1 << B;
-
-        while (s <= r)
-        {
-            unsigned long m = (s + r) >> 1;
-            InfiniteInt cur = num * InfiniteInt(m, 0);
-            if (cur <= curValue)
-            {
-                x = m;
-                s = m + 1;
-            }
-            else
-                r = m - 1;
-        }
-        res._bits[i] = x;
-        InfiniteInt numx = num*x;
-        curValue = curValue - numx;
-    }
-
-    // избавляемся от лидирующих нулей
-    res.Normalize();
-    */
-
     return QuoRem(*this, num).first;
 
 }
@@ -326,44 +287,6 @@ InfiniteInt InfiniteInt::operator/=(InfiniteInt num) {
 }
 
 InfiniteInt InfiniteInt::operator%(InfiniteInt num) {
-
-    /*InfiniteInt res;
-    InfiniteInt curValue;
-    res._bits.resize(_bits.capacity() + num._bits.capacity(), 0);
-    curValue._bits.resize(_bits.capacity() + num._bits.capacity(), 0);
-
-    unsigned long k = _bits.capacity();
-    unsigned long l = num._bits.capacity();
-
-    for (long i = k - 1; i >= 0; i--)
-    {
-        curValue.LevelUp(); // * 2^N
-        curValue._bits[0] = _bits[i];
-
-        // подбираем максимальное число x, такое что num * x <= curValue
-        unsigned long x = 0;
-        unsigned long s = 0, r = (unsigned long)1 << B;
-
-        while (s <= r)
-        {
-            unsigned long m = (s + r) >> 1;
-            InfiniteInt cur = num * InfiniteInt(m, 0);
-            if (cur <= curValue)
-            {
-                x = m;
-                s = m + 1;
-            }
-            else
-                r = m - 1;
-        }
-        res._bits[i] = x;
-        InfiniteInt numx = num*x;
-        curValue = curValue - numx;
-    }
-
-    // избавляемся от лидирующих нулей
-    res.Normalize();
-    */
 
     return QuoRem(*this, num).second;
 }
@@ -407,14 +330,6 @@ InfiniteInt InfiniteInt::operator>>(unsigned int deg) {
     return res;
 }
 
-void InfiniteInt::LevelUp() {
-    unsigned long len = _bits.capacity();
-    _bits.resize(len + 1);
-    for (unsigned long i = len; i >= 1; i--)
-        _bits[i] = _bits[i - 1];
-    _bits[0] = 0;
-    this->Normalize();
-}
 
 void InfiniteInt::Normalize() {
     unsigned long l = _bits.capacity();
@@ -439,13 +354,18 @@ vector<unsigned int> InfiniteInt::getBits() {
     return _bits;
 }
 
-pair<long long, long long> correctDivMod(__int128 a, __int128 b) {
-    long long q = a / b;
-    long long r = a % b;
-    if (a >= 0 && b >= 0 || a <= 0 && b <= 0)
-        return make_pair(q, r);
-    else
-        return make_pair(q - 1, r + b);
+pair<int64_t, int64_t> InfiniteInt::correctDivMod(uint64_t a, uint64_t b, bool f) {
+    if (!f)
+        return make_pair(a / b, a % b);
+    else {
+        int64_t q = a / b;
+        int64_t r = a % b;
+        r = -(r - b);
+        if (r >= MaxInt)
+            r = r - MaxInt;
+        return make_pair(r == 0 ? q : q + 1, r);
+    }
+
 };
 
 pair<InfiniteInt, InfiniteInt> InfiniteInt::QuoRem(InfiniteInt d_dent, InfiniteInt d_der) {
@@ -453,60 +373,54 @@ pair<InfiniteInt, InfiniteInt> InfiniteInt::QuoRem(InfiniteInt d_dent, InfiniteI
     InfiniteInt divident = d_dent;
     InfiniteInt divider = d_der;
     unsigned long lenDivider = divider._bits.size();
-    while (divider._bits[divider._bits.capacity() - 1] < MaxInt/2) {
+    while (divider._bits[divider._bits.size() - 1] < MaxInt/2) {
         divident <<= 1;
         divider <<= 1;
         w++;
     }
 
 
-    vector<long long> quot;
-    vector<long long> rem;
+    vector<int64_t> quot;
+    vector<int64_t> rem;
 
-    unsigned long k = divident._bits.capacity();
-    unsigned long l = divider._bits.capacity();
+    unsigned long k = divident._bits.size();
+    unsigned long l = divider._bits.size();
 
     rem.resize(k > l ? k + 1 : l + 1, 0);
     quot.resize(k - l + 1, 0);
 
-    long long carry = 0;
-    __int128 tmp = 0;
+    uint32_t carry = 0;
+    uint64_t tmp = 0;
 
     for (int i = 0; i < k; i++)
         rem[i] = divident._bits[i];
 
-    for (long long i = k - l; i >= 0; i--) {
-        tmp = ( ((__int128) rem[i + l]) << 32) | (__int128) rem[i + l - 1];
+    for (int64_t i = k - l; i >= 0; i--) {
+        tmp = ( ((uint64_t) rem[i + l]) << 32) | (uint64_t) rem[i + l - 1];
         carry = divider._bits[l - 1];
-        bool ff = tmp > carry;
-        quot[i] = tmp / carry;
+        quot[i] = (int64_t)floor(tmp / carry);
 
         if (quot[i] >= MaxInt)
             quot[i] = MaxInt - 1;
         carry = 0;
 
         for (int j = 0; j < l; j++) {
-            tmp = (__int128)rem[i + j] - (__int128)quot[i] * (__int128)divider._bits[j] + (__int128)carry;
-            bool f = tmp < 0;
-            f = abs(tmp) - MaxInt > 0;
-            std::tie(carry, rem[i+j]) = correctDivMod(tmp, (__int128)MaxInt);
-            if (rem[i+j] < 0) rem[i+j] *= -1;
-            if (lenDivider == 1) carry++;
-            //carry = tmp / (__int128)MaxInt;
-            //rem[i+j] = abs(tmp % (__int128)MaxInt);
+            tmp = (uint64_t)TMP_SHIFT - (uint64_t)quot[i] * (uint64_t)divider._bits[j] - carry + (uint64_t)rem[i + j];
+            bool f = tmp <= TMP_SHIFT;
+
+            std::tie(carry, rem[i + j]) = divident.correctDivMod(f ? (uint64_t)TMP_SHIFT - tmp : tmp - (uint64_t)TMP_SHIFT, (uint64_t)MaxInt, f);
+
         }
 
-        if (rem[i + l] != 0) rem[i + l] = rem[i + l] + carry;
+        rem[i + l] -= carry;
 
         for (; rem[i + l] < 0;) {
             carry = 0;
             for (int j = 0; j < l; j++) {
-                tmp = (__int128)rem[i + j] + (__int128)divider._bits[j] + (__int128)carry;
-                std::tie(carry, rem[i+j]) = correctDivMod(tmp, (__int128)MaxInt);
-                if (rem[i+j] < 0) rem[i+j] *= -1;
-                if (lenDivider == 1) carry++;
-                //carry = tmp / (__int128)MaxInt;
-                //rem[i+j] = abs(tmp % (__int128)MaxInt);
+                tmp = (uint64_t)rem[i + j] + (uint64_t)divider._bits[j] + carry;
+
+                std::tie(carry, rem[i+j]) = divident.correctDivMod(tmp, (uint64_t)MaxInt, 0);
+
             }
             rem[i + l] += carry;
             quot[i]--;
@@ -530,7 +444,7 @@ pair<InfiniteInt, InfiniteInt> InfiniteInt::QuoRem(InfiniteInt d_dent, InfiniteI
 
 }
 
-unsigned int InfiniteInt::operator[](long long i) {
+unsigned int InfiniteInt::operator[](size_t i) {
     return this->_bits[i];
 }
 
@@ -542,64 +456,4 @@ InfiniteInt InfiniteInt::operator<<=(unsigned int deg) {
 InfiniteInt InfiniteInt::operator>>=(unsigned int deg) {
     return (*this = *this >> deg);
 }
-
-std::pair<InfiniteInt, InfiniteInt> InfiniteInt::NewQuoRem(const InfiniteInt &lhs, const InfiniteInt &rhs) {
-    if (rhs._bits.size() == 1 && rhs._bits[0] == 0) {
-        cout << "Division by zero" << endl;
-        return std::make_pair(lhs, 0);
-    }
-    InfiniteInt dividend = lhs;
-    InfiniteInt divisor = rhs;
-
-    bool negative = 0;
-    if (dividend < 0) {
-        negative = !negative;
-        dividend._sign = PLUS;
-    }
-    if (divisor < 0) {
-        negative = !negative;
-        divisor._sign = PLUS;
-    }
-
-    InfiniteInt remainder = 0;
-    InfiniteInt quotient = 0;
-    while (dividend._bits.size() > 0) {
-        remainder._bits.insert(remainder._bits.begin(), dividend._bits[dividend._bits.size() - 1]);
-        remainder._bits.push_back(0);
-        remainder.Normalize();
-        dividend._bits.pop_back();
-
-        if (divisor > remainder) {
-            quotient._bits.push_back(0);
-        } else {
-            int count = 0;
-            long i = divisor._bits.size() - 1;
-            InfiniteInt value = 0;
-            while (i > 0) {
-                InfiniteInt increase = divisor * i;
-                InfiniteInt next = value + increase;
-                if (next <= remainder) {
-                    value = next;
-                    count += i;
-                }
-                i >>= 1;
-            }
-            quotient._bits.push_back(count);
-            remainder -= value;
-        }
-    }
-
-    for (int i = 0; i < quotient._bits.size() / 2; i++) {
-        unsigned int swap = quotient._bits[i];
-        quotient._bits[i] = quotient._bits[(quotient._bits.size() - 1) - i];
-        quotient._bits[quotient._bits.size() - 1 - i] = swap;
-    }
-
-    if (negative) quotient._sign = (quotient._sign) ? PLUS : MINUS;
-    if (negative) remainder._sign = (remainder._sign) ? PLUS : MINUS;
-    quotient.Normalize();
-    remainder.Normalize();
-    return std::make_pair(quotient, remainder);
-}
-
 

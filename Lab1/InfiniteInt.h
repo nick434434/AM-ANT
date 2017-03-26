@@ -5,13 +5,15 @@
 #ifndef LAB1_INFINITEINT_H
 #define LAB1_INFINITEINT_H
 
-#endif //LAB1_INFINITEINT_H
+
 
 #include <string>
 #include <vector>
 
 
-#define MaxInt 4294967296
+const uint64_t MaxInt = 4294967296;
+
+const uint64_t TMP_SHIFT = (MaxInt*MaxInt - MaxInt);
 
 using std::vector;
 using std::string;
@@ -25,13 +27,13 @@ public:
 
     InfiniteInt();
 
-    InfiniteInt(long long num);
+    InfiniteInt(int64_t num);
 
     InfiniteInt(unsigned long num, unsigned int sign);
 
     InfiniteInt(vector<unsigned int> bits, unsigned int sign);
 
-    InfiniteInt(vector<long long> bits, unsigned int sign);
+    InfiniteInt(vector<int64_t> bits, unsigned int sign);
 
     InfiniteInt(string num, unsigned int base);
 
@@ -65,7 +67,7 @@ public:
 
     InfiniteInt operator%(InfiniteInt num);
 
-    unsigned int operator[](long long i);
+    unsigned int operator[](size_t i);
 
 
     InfiniteInt operator<<(unsigned int deg);
@@ -77,8 +79,6 @@ public:
     InfiniteInt operator>>=(unsigned int deg);
 
 
-    void LevelUp();
-
     void Normalize();
 
 
@@ -86,16 +86,11 @@ public:
 
     vector<unsigned int> getBits();
 
-    unsigned int getSign();
-
-    InfiniteInt substractBits(InfiniteInt& a, InfiniteInt& b, unsigned long bits);
+    std::pair<int64_t, int64_t> correctDivMod(uint64_t a, uint64_t b, bool f);
 
     static std::pair<InfiniteInt, InfiniteInt> QuoRem(InfiniteInt divident, InfiniteInt divider);
-
-    static std::pair<InfiniteInt, InfiniteInt> QR(InfiniteInt divident, InfiniteInt divider);
-
-    std::pair<InfiniteInt, InfiniteInt> NewQuoRem(const InfiniteInt& lhs, const InfiniteInt & rhs);
 
 };
 
 
+#endif //LAB1_INFINITEINT_H

@@ -5,8 +5,6 @@
 #ifndef LAB1_MAKE_GRAPHS_H
 #define LAB1_MAKE_GRAPHS_H
 
-#endif //LAB1_MAKE_GRAPHS_H
-
 
 #include <fstream>
 #include <ctime>
@@ -45,7 +43,10 @@ void makeGraphs(string fname) {
 
 
 
-    if (openFile(fname))
+    if (openFile(fname)) {
+        out << "Length" << ';' << "Input" << ';' << "Sum" << ';' << "Substract" << ';' << "Multipl" << ';' << "Divide1" << ';'
+            << "Divide2" << ';' << "OutputToStr" << endl;
+
         for (int i = 1; i < 10000; i += 20) {
             out << std::fixed;
 
@@ -53,53 +54,57 @@ void makeGraphs(string fname) {
             string num1 = gen_random(i);
             string num2 = gen_random(i);
             string num3 = gen_random(i/2);
-        //INPUT
+            //INPUT
             start = getCPUTime();
             InfiniteInt a(num1, 10);
             end = getCPUTime();
             InfiniteInt b(num2, 10);
             out << (end - start) << ';';
 
-        //SUM
+            //SUM
             InfiniteInt c(0);
             start = getCPUTime();
             c = a + b;
             end = getCPUTime();
             out << (end - start) << ';';
 
-        //SUBSTRACTION
+            //SUBSTRACTION
             start = getCPUTime();
             c = a - b;
             end = getCPUTime();
             out << (end - start) << ';';
 
-        //MULTIPLICATION
+            //MULTIPLICATION
             start = getCPUTime();
             c = a * b;
             end = getCPUTime();
             out << (end - start) << ';';
 
 
-        //DIVISION
+            //DIVISION
             InfiniteInt d(num3, 10);
             start = getCPUTime();
             c = a / d;
             end = getCPUTime();
             out << (end - start) << ';';
-        //SECOND DIVISION
+            //SECOND DIVISION
             start = getCPUTime();
             c = b / d;
             end = getCPUTime();
-            out << (end - start) << endl;
-/*
-        //OUTPUT
+            out << (end - start) << ';';
+
+            //OUTPUT
             start = getCPUTime();
             a.BigIntToDecimalString(10);
             end = getCPUTime();
             out << (end - start) << endl;
-*/
+
         }
+    }
 
     out.close();
     return;
 }
+
+
+#endif //LAB1_MAKE_GRAPHS_H
