@@ -5,13 +5,17 @@
 
 #include "InfiniteInt.h"
 #include <iostream>
+#include <tuple>
 #include <algorithm>
 #include <sstream>
+
 
 using std::cout;
 using std::endl;
 using std::pair;
 using std::make_pair;
+using std::stringstream;
+
 
 InfiniteInt::InfiniteInt() {
     _bits.resize(1, 0);
@@ -196,7 +200,7 @@ InfiniteInt InfiniteInt::operator-(InfiniteInt num) {
         int64_t tmp = 0;
 
         for (int i = 0; i < min_length; i++) {
-            tmp = (long)minuend[i] - (long)substrahend[i] + (long)carry;
+            tmp = (int64_t)minuend[i] - (int64_t)substrahend[i] + (int64_t)carry;
             if (tmp >= 0)
                 carry = (tmp / MaxInt);
             else {
@@ -206,7 +210,7 @@ InfiniteInt InfiniteInt::operator-(InfiniteInt num) {
             res[i] = tmp % MaxInt;
         }
         for (unsigned long i = min_length; i < res.capacity(); i++) {
-            tmp = (long)minuend[i] + (long)carry;
+            tmp = (int64_t)minuend[i] + (int64_t)carry;
             if (tmp >= 0)
                 carry = tmp / MaxInt;
             else {
@@ -342,9 +346,12 @@ string InfiniteInt::BigIntToDecimalString(unsigned int _base) {
     string res = "";
     InfiniteInt base(_base, 0);
     InfiniteInt tmp(this->_bits, this->_sign);
+    stringstream ss;
     for (; tmp._bits.size() > 1 || tmp._bits[0] > 0;) {
-        res = std::to_string((tmp % base).getBits()[0]) + res;
+        ss << (tmp % base).getBits()[0];
+        res = ss.str() + res;
         tmp = tmp / base;
+        ss.clear();
     }
 
     return res;

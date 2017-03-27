@@ -9,7 +9,9 @@
 #include "InfiniteInt.h"
 #include <sstream>
 #include <algorithm>
+#include <tuple>
 #include <iostream>
+
 
 using std::stringstream;
 
@@ -23,6 +25,25 @@ vector<string> answersPlus = {"10000000000000000000000123", "1000000000000000000
 vector<string> answersMultip = {"2589741", "24787521", "246765321", "2466543321", "24664323321", "246642123321",
 "2466420123321", "24664200123321", "246642000123321", "2466420000123321", "24664200000123321", "246642000000123321",
 "2466420000000123321", "24664200000000123321", "246642000000000123321"};
+
+
+string randNum(const unsigned int len) {
+
+    string res = "";
+    stringstream ss;
+
+    for (int i = 0; i < len - 1; i++) {
+        ss << rand() % 10;
+    }
+
+    int num = rand() % 10;
+    res = ss.str();
+    ss.clear();
+    ss << num;
+    res = (ss.str() == "0" ? "1" : ss.str()) + res;
+
+    return res;
+}
 
 
 bool makeTestsPlus() {
@@ -79,69 +100,18 @@ bool makeTestsMultiplication() {
     return f;
 }
 
-bool makeTestsDivision() {
-
-    string v1 = "123321";
-    string v2 = "21";
-    bool f = true;
-    for (int i = 0; i < 15 & f; i++) {
-        InfiniteInt a(answersMultip[i], 0);
-        InfiniteInt b(v2, 0);
-        a /= b;
-        b = InfiniteInt(v1, 0);
-        f = a == b;
-        string v3 = "20" + v2.substr(1);
-        v2 = v3;
-    }
-
-
-    return f;
-}
-
-bool makeTestsDivision2() {
-
-    string v1 = "123321";
-    string v2 = "21";
-    bool f = true;
-    for (int i = 0; i < 15 & f; i++) {
-        InfiniteInt a(answersMultip[i], 0);
-        InfiniteInt b(v2, 0);
-        InfiniteInt c(0);
-        std::tie(a, c) = InfiniteInt::QuoRem(a, b);
-        b = InfiniteInt(v1, 0);
-        f = a == b;
-        string v3 = "20" + v2.substr(1);
-        v2 = v3;
-    }
-
-
-    return f;
-}
-
-static const char nums[] = "0123456789";
-
-string randNum(unsigned long length) {
-    stringstream ss;
-    for (unsigned long i = 0; i < length; i++) {
-        ss << std::to_string(rand() % 10);
-    }
-    return ss.str();
-}
-
 bool makeTestsDivisionRandom() {
 
     string v1 = "1";
     string v2 = "1";
     bool f = true;
-    for (unsigned long i = 40; i < 70 & f; i++) {
+    for (unsigned long i = 21; i < 401 & f; i++) {
 
         InfiniteInt a(v1, 0);
         InfiniteInt b(v2, 0);
         std::pair<InfiniteInt, InfiniteInt> c = InfiniteInt::QuoRem(a, b);
         b = c.first*b + c.second;
         f = a == b;
-        std::cout << i << " " << f << " " << v1 << " / " << v2 << std::endl;
-
         v1 = randNum(i);
         v2 = randNum(i - 20);
     }
@@ -154,10 +124,9 @@ bool makeTests() {
     bool f1 = makeTestsPlus();
     bool f2 = makeTestsMinus();
     bool f3 = makeTestsMultiplication();
-    bool f4 = makeTestsDivision();
-    bool f5 = makeTestsDivisionRandom();
+    bool f4 = makeTestsDivisionRandom();
 
-    return f1 && f2 && f3 && f4 && f5;
+    return f1 && f2 && f3 && f4;
 }
 
 

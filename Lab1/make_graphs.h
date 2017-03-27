@@ -7,26 +7,31 @@
 
 
 #include <fstream>
-#include <ctime>
 #include <iostream>
 #include "getCPUTime.h"
+
 
 using std::cout;
 using std::endl;
 using std::ofstream;
 
-ofstream out;
 
+ofstream out;
 
 string gen_random(const int len) {
 
     string res = "";
+    stringstream ss;
 
-    for (int i = 0; i < len - 1; i++)
-        res = res + std::to_string(rand() % 10);
+    for (int i = 0; i < len - 1; i++) {
+        ss << rand() % 10;
+    }
 
     int num = rand() % 10;
-    res = (std::to_string(num) == "0" ? "1" : std::to_string(num)) + res;
+    res = ss.str();
+    ss.clear();
+    ss << num;
+    res = (ss.str() == "0" ? "1" : ss.str()) + res;
 
     return res;
 }
@@ -40,8 +45,6 @@ bool openFile(string fname) {
 void makeGraphs(string fname) {
 
     double start, end;
-
-
 
     if (openFile(fname)) {
         out << "Length" << ';' << "Input" << ';' << "Sum" << ';' << "Substract" << ';' << "Multipl" << ';' << "Divide1" << ';'
