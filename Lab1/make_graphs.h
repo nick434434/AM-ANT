@@ -29,7 +29,7 @@ string gen_random(const int len) {
 
     int num = rand() % 10;
     res = ss.str();
-    ss.clear();
+    ss.str(std::string()); ss.clear();
     ss << num;
     res = (ss.str() == "0" ? "1" : ss.str()) + res;
 
