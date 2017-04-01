@@ -112,6 +112,13 @@ bool makeTestsDivisionRandom() {
         std::pair<InfiniteInt, InfiniteInt> c = InfiniteInt::QuoRem(a, b);
         b = c.first*b + c.second;
         f = a == b;
+        if (f) {
+            InfiniteInt a0(v2, 0);
+            InfiniteInt b0(v1, 0);
+            c = InfiniteInt::QuoRem(a0, b0);
+            b0 = c.first*b0 + c.second;
+            f = a0 == b0;
+        }
         v1 = randNum(i);
         v2 = randNum(i - 20);
     }
@@ -120,13 +127,43 @@ bool makeTestsDivisionRandom() {
     return f;
 }
 
+bool makeTestsSubstractionRandom() {
+
+
+    string v1 = "38423581758492045761";
+    string v2 = "156470395784935";
+    bool f = true;
+    for (unsigned long i = 21; i < 401 & f; i++) {
+
+        InfiniteInt a(v1, 0);
+        InfiniteInt b(v2, 0);
+        InfiniteInt c = a - b;
+        b += c;
+        f = a == b;
+        if (f) {
+            InfiniteInt a0(v2, 0);
+            InfiniteInt b0(v1, 0);
+            c = b - a;
+            a += c;
+            f = a == b;
+        }
+        v1 = randNum(i + 1);
+        v2 = randNum(i - 4);
+    }
+
+
+    return f;
+
+}
+
 bool makeTests() {
     bool f1 = makeTestsPlus();
     bool f2 = makeTestsMinus();
     bool f3 = makeTestsMultiplication();
     bool f4 = makeTestsDivisionRandom();
+    bool f5 = makeTestsSubstractionRandom();
 
-    return f1 && f2 && f3 && f4;
+    return f1 && f2 && f3 && f4 && f5;
 }
 
 

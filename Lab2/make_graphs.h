@@ -1,20 +1,24 @@
 //
-// Created by nick434434 on 02.03.17.
+// Created by Никита Ковалев on 30.03.2017.
 //
 
-#ifndef LAB1_MAKE_GRAPHS_H
-#define LAB1_MAKE_GRAPHS_H
+#pragma once
+
+#ifndef LAB2_MAKE_GRAPHS_H
+#define LAB2_MAKE_GRAPHS_H
 
 
 #include <fstream>
 #include <iostream>
+#include <sstream>
 #include "getCPUTime.h"
-
+#include "gcdLib.h"
 
 using std::cout;
 using std::endl;
 using std::ofstream;
-
+using std::string;
+using std::stringstream;
 
 ofstream out;
 
@@ -47,61 +51,53 @@ void makeGraphs(string fname) {
     double start, end;
 
     if (openFile(fname)) {
-        out << "Length" << ';' << "Input" << ';' << "Sum" << ';' << "Substract" << ';' << "Multipl" << ';' << "Divide1" << ';'
-            << "Divide2" << ';' << "OutputToStr" << endl;
+        out << "Length" << ';' << "GCD" << ';' << "LCM" << ';' << "BIN_GCD" << ';' << "EXT_GCD" << ';' << "BIN_EXT_GCD" << endl;
 
-        for (int i = 1; i < 10000; i += 20) {
+        for (int i = 1; i < 100000; i += 20) {
             out << std::fixed;
 
             out << i << ';';
             string num1 = gen_random(i);
-            string num2 = gen_random(i);
-            string num3 = gen_random(i/2);
-            //INPUT
-            start = getCPUTime();
+            string num2 = gen_random(i/2 + 100);
+            //GCD
             InfiniteInt a(num1, 10);
-            end = getCPUTime();
             InfiniteInt b(num2, 10);
-            out << (end - start) << ';';
-
-            //SUM
-            InfiniteInt c(0);
+/*
             start = getCPUTime();
-            c = a + b;
+            gcd(a, b);
             end = getCPUTime();
             out << (end - start) << ';';
 
-            //SUBSTRACTION
+            cout << "gcd done" << endl;
+            //LCM
             start = getCPUTime();
-            c = a - b;
-            end = getCPUTime();
-            out << (end - start) << ';';
-
-            //MULTIPLICATION
-            start = getCPUTime();
-            c = a * b;
-            end = getCPUTime();
-            out << (end - start) << ';';
-
-
-            //DIVISION
-            InfiniteInt d(num3, 10);
-            start = getCPUTime();
-            c = a / d;
-            end = getCPUTime();
-            out << (end - start) << ';';
-            //SECOND DIVISION
-            start = getCPUTime();
-            c = b / d;
-            end = getCPUTime();
-            out << (end - start) << ';';
-
-            //OUTPUT
-            start = getCPUTime();
-            a.BigIntToDecimalString();
+            lcm(a, b);
             end = getCPUTime();
             out << (end - start) << endl;
+            cout << "lcm done" << endl;
+*/
+            //EXT_GCD
+            start = getCPUTime();
+            extGcd(a, b);
+            end = getCPUTime();
+            out << (end - start) << endl;
+            cout << "ext_gcd done" << endl;
 
+            /*
+            //BIN_GCD
+            start = getCPUTime();
+            binaryGcd(a, b);
+            end = getCPUTime();
+            out << (end - start) << ';';
+            cout << "bin_gcd done" << endl;
+
+            //BIN_EXT_GCD
+            start = getCPUTime();
+            extBinGcd(a, b);
+            end = getCPUTime();
+            out << (end - start) << endl;
+            cout << "bin_ext_gcd done" << endl;
+            */
         }
     }
 
@@ -109,5 +105,4 @@ void makeGraphs(string fname) {
     return;
 }
 
-
-#endif //LAB1_MAKE_GRAPHS_H
+#endif //LAB2_MAKE_GRAPHS_H

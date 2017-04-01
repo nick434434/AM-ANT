@@ -1,7 +1,7 @@
 
 
 #include <iostream>
-#include "gcdLib.h"
+#include "make_graphs.h"
 
 
 using std::cout;
@@ -10,10 +10,12 @@ using std::endl;
 
 int main() {
 
-    pair<InfiniteInt, pair<InfiniteInt, InfiniteInt>> res = extGcd(64, 13);
 
-    cout << res.first.BigIntToDecimalString() << endl << res.second.first.BigIntToDecimalString() << " "
-         << res.second.second.BigIntToDecimalString() << endl;
+    cout << makeTestsExtGcd() << endl;
+    cout << makeTestsGcd() << endl;
+    cout << makeTestsLcm() << endl;
+    cout << makeTestsBinGcd() << endl;
+
 
     return 0;
 }

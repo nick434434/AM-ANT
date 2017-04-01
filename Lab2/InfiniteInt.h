@@ -2,6 +2,8 @@
 // Created by nick434434 on 23.02.17.
 //
 
+#pragma once
+
 #ifndef LAB1_INFINITEINT_H
 #define LAB1_INFINITEINT_H
 
@@ -15,8 +17,10 @@ const uint64_t MaxInt = 4294967296;
 
 const uint64_t TMP_SHIFT = (MaxInt*MaxInt - MaxInt);
 
+
 using std::vector;
 using std::string;
+
 
 class InfiniteInt {
     vector<unsigned int> _bits;
@@ -37,6 +41,7 @@ public:
 
     InfiniteInt(string num, unsigned int base);
 
+    InfiniteInt(string num) : InfiniteInt(num, 10) {}
 
     bool operator==(InfiniteInt num) const;
 
@@ -78,13 +83,15 @@ public:
 
     InfiniteInt operator>>=(unsigned int deg);
 
+    friend std::ostream& operator<<(std::ostream& os, const InfiniteInt& obj);
+
 
     void Normalize();
 
 
-    string BigIntToDecimalString();
+    string BigIntToDecimalString() const;
 
-    string BigIntToString(unsigned int _base);
+    string BigIntToString(unsigned int _base) const;
 
     vector<unsigned int> getBits();
 
@@ -92,7 +99,12 @@ public:
 
     static std::pair<InfiniteInt, InfiniteInt> QuoRem(InfiniteInt divident, InfiniteInt divider);
 
+    InfiniteInt sqrt();
+
 };
+
+
+typedef InfiniteInt Iint;
 
 
 #endif //LAB1_INFINITEINT_H

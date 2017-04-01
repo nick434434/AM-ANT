@@ -94,7 +94,13 @@
 		<Unit filename="D:/Git_Repo/AM-ANT/Lab2/gcdLib.h">
 			<Option target="Lab2"/>
 		</Unit>
+		<Unit filename="D:/Git_Repo/AM-ANT/Lab2/getCPUTime.h">
+			<Option target="Lab2"/>
+		</Unit>
 		<Unit filename="D:/Git_Repo/AM-ANT/Lab2/main.cpp">
+			<Option target="Lab2"/>
+		</Unit>
+		<Unit filename="D:/Git_Repo/AM-ANT/Lab2/make_graphs.h">
 			<Option target="Lab2"/>
 		</Unit>
 		<Unit filename="D:/Git_Repo/AM-ANT/Lab2/CMakeLists.txt">
