@@ -1,0 +1,9 @@
+*** CheckFeature log ***
+g++ -I../include -I. -march=native -g -O2 -o TestGetTime TestGetTime.cpp GetTime1.cpp -lm
+running
+g++ -I../include -I. -march=native -g -O2 -o TestGetPID TestGetPID.cpp GetPID1.cpp -lm
+g++ -I../include -I. -march=native -g -O2 -o CheckFeature CheckCLZL.cpp CheckCLZLAux.cpp -lm
+g++ -I../include -I. -march=native -g -O2 -o CheckFeature CheckLL.cpp CheckLLAux.cpp -lm
+g++ -I../include -I. -march=native -g -O2 -o CheckFeature CheckAVX.cpp -lm
+g++ -I../include -I. -march=native -g -O2 -o CheckFeature CheckFMA.cpp -lm
+g++ -I../include -I. -march=native -g -O2 -o CheckFeature CheckPCLMUL.cpp -lm
