@@ -1,6 +1,6 @@
 
 #include <iostream>
-#include "Fraction.h"
+#include "make_graphs.h"
 
 
 using std::cout;
@@ -10,17 +10,11 @@ using std::endl;
 
 int main() {
 
-    Fraction f(34, 27);
-
-    cout << f << endl;
-
-    DecFr fr(cout, cin);
+    Fraction fr(DecFr(cout , cin));
 
     cout << fr << endl;
 
-    Fraction f1(fr);
-
-    cout << f1 << endl;
+    //makeGraphs("output500.csv");
 
     return 0;
 }

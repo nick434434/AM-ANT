@@ -100,7 +100,13 @@
 		<Unit filename="D:/Git_Repo/AM-ANT/Individual2/gcdLib.h">
 			<Option target="Individual2"/>
 		</Unit>
+		<Unit filename="D:/Git_Repo/AM-ANT/Individual2/getCPUTime.h">
+			<Option target="Individual2"/>
+		</Unit>
 		<Unit filename="D:/Git_Repo/AM-ANT/Individual2/main.cpp">
+			<Option target="Individual2"/>
+		</Unit>
+		<Unit filename="D:/Git_Repo/AM-ANT/Individual2/make_graphs.h">
 			<Option target="Individual2"/>
 		</Unit>
 		<Unit filename="D:/Git_Repo/AM-ANT/Individual2/CMakeLists.txt">

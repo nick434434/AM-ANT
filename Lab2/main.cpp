@@ -16,6 +16,8 @@ int main() {
     cout << makeTestsLcm() << endl;
     cout << makeTestsBinGcd() << endl;
 
+    makeGraphs("experiments.csv");
+
 
     return 0;
 }

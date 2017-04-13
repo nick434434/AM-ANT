@@ -21,10 +21,11 @@ const uint64_t TMP_SHIFT = (MaxInt*MaxInt - MaxInt);
 using std::vector;
 using std::string;
 
+enum Sign { PLUS, MINUS };
 
 class InfiniteInt {
     vector<unsigned int> _bits;
-    enum Sign { PLUS, MINUS }_sign;
+    Sign _sign = PLUS;
     unsigned long B = 32;
 
 public:
@@ -33,7 +34,9 @@ public:
 
     InfiniteInt(int64_t num);
 
-    InfiniteInt(unsigned long num, unsigned int sign);
+    InfiniteInt(double d, unsigned int base);
+
+    InfiniteInt(unsigned long num, Sign sign);
 
     InfiniteInt(vector<unsigned int> bits, unsigned int sign);
 
@@ -52,6 +55,12 @@ public:
     bool operator>(InfiniteInt num) const;
 
     bool operator>=(InfiniteInt num) const;
+
+
+    bool operator<(double d) const;
+    bool operator>(double d) const;
+    bool operator<=(double d) const;
+    bool operator>=(double d) const;
 
 
     InfiniteInt operator+(InfiniteInt num);
@@ -100,6 +109,8 @@ public:
     static std::pair<InfiniteInt, InfiniteInt> QuoRem(InfiniteInt divident, InfiniteInt divider);
 
     InfiniteInt sqrt();
+
+    double quotientToDouble(InfiniteInt a, InfiniteInt b);
 
 };
 

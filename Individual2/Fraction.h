@@ -20,26 +20,6 @@ class DecimalFraction {
 
 public:
 
-    DecimalFraction(vector<int> vec) {
-        this->digits.resize(vec.size());
-        for (size_t i = 0; i < vec.size(); i++) {
-            this->digits[i] = DecimalFraction::makeDigit(vec[i]);
-        }
-    }
-
-    DecimalFraction(std::ostream& os, std::istream& is) {
-        os << "Input decimal fraction (if fraction is 0.abcde... then type abcde...): ";
-        int dig = 0;
-        string s;
-        is >> s;
-        digits.resize(s.length());
-        for (size_t i = 0; i < s.length(); i++) {
-            dig = s[i] - '0';
-            digits[i] = makeDigit(dig);
-        }
-        os << std::endl;
-    }
-
     static inline Digit makeDigit(int dig) {
         dig %= 10;
         switch (dig) {
@@ -55,6 +35,35 @@ public:
             case 9: return NINE;
             default: return ZERO;
         }
+    }
+
+    DecimalFraction(vector<int> vec) {
+        this->digits.resize(vec.size());
+        for (size_t i = 0; i < vec.size(); i++) {
+            this->digits[i] = DecimalFraction::makeDigit(vec[i]);
+        }
+    }
+
+    DecimalFraction(string s) {
+        int dig = 0;
+        digits.resize(s.length());
+        for (size_t i = 0; i < s.length(); i++) {
+            dig = s[i] - '0';
+            digits[i] = makeDigit(dig);
+        }
+    }
+
+    DecimalFraction(std::ostream& os, std::istream& is) {
+        os << "Input decimal fraction (if fraction is 0.abcde... then type abcde...): ";
+        int dig = 0;
+        string s;
+        is >> s;
+        digits.resize(s.length());
+        for (size_t i = 0; i < s.length(); i++) {
+            dig = s[i] - '0';
+            digits[i] = makeDigit(dig);
+        }
+        os << std::endl;
     }
 
     inline int extractDigit(size_t k) {
@@ -99,6 +108,8 @@ public:
     static Iint tenInDegree(uint64_t k);
 
     friend std::ostream& operator<<(std::ostream& os, const Fraction& obj);
+
+    string get_S_and_T();
 };
 
 

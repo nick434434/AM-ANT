@@ -51,7 +51,7 @@ void makeGraphs(string fname) {
     double start, end;
 
     if (openFile(fname)) {
-        out << "Length" << ';' << "GCD" << ';' << "LCM" << ';' << "BIN_GCD" << ';' << "EXT_GCD" << ';' << "BIN_EXT_GCD" << endl;
+        out << "Length" << ';' << "GCD" << ';' << "LCM" << ';' << "EXT_GCD" << ';' << "BIN_GCD" << endl;
 
         for (int i = 1; i < 100000; i += 20) {
             out << std::fixed;
@@ -59,38 +59,35 @@ void makeGraphs(string fname) {
             out << i << ';';
             string num1 = gen_random(i);
             string num2 = gen_random(i/2 + 100);
-            //GCD
+
             InfiniteInt a(num1, 10);
             InfiniteInt b(num2, 10);
-/*
+
+            //GCD
             start = getCPUTime();
             gcd(a, b);
             end = getCPUTime();
             out << (end - start) << ';';
 
-            cout << "gcd done" << endl;
             //LCM
             start = getCPUTime();
             lcm(a, b);
             end = getCPUTime();
-            out << (end - start) << endl;
-            cout << "lcm done" << endl;
-*/
+            out << (end - start) << ';';
+
             //EXT_GCD
             start = getCPUTime();
             extGcd(a, b);
             end = getCPUTime();
-            out << (end - start) << endl;
-            cout << "ext_gcd done" << endl;
+            out << (end - start) << ';';
 
-            /*
             //BIN_GCD
             start = getCPUTime();
             binaryGcd(a, b);
             end = getCPUTime();
-            out << (end - start) << ';';
-            cout << "bin_gcd done" << endl;
+            out << (end - start) << endl;
 
+            /*
             //BIN_EXT_GCD
             start = getCPUTime();
             extBinGcd(a, b);
